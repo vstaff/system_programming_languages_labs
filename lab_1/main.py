@@ -22,7 +22,7 @@ def main() -> None:
     
     # сохраняем данные в файлы
     for i in range(files_amount):
-        with open(f"./{RESULTS_FOLDER}/result_{i + 1}.csv", mode="w", newline="") as result:
+        with open(f"./results/result_{i + 1}.csv", mode="w", newline="") as result:
             writer = csv.writer(result)
             for category, values in data_from_files[i].items():
                 median = values[0]
