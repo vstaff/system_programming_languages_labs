@@ -5,7 +5,7 @@ from collections import defaultdict
 import statistics as stats
 import csv 
 import random
-from util import DATA_FOLDER, ROWS_AMOUNT, CATEGORIES, get_random_float, Category, RESULTS_FOLDER
+from util import ROWS_AMOUNT, CATEGORIES, get_random_float, Category
 
 
 def generate_csv_files(amount: int, name: str) -> None:
@@ -16,7 +16,7 @@ def generate_csv_files(amount: int, name: str) -> None:
         name (str): общее имя для файлов (без индекса и .csv)
     """
     for i in range(amount):
-        filename = f"./{DATA_FOLDER}/{name}_{i + 1}.csv"
+        filename = f"./data/{name}_{i + 1}.csv"
         with open(filename, "x", newline="") as file:
             writer = csv.writer(file)
             for j in range(ROWS_AMOUNT):
@@ -36,7 +36,7 @@ def process_file(filename: str) -> dict[Category, list[float, float]]:
     """
     data: dict[Category, list[float]] = defaultdict(list)
     
-    with open(f"./{DATA_FOLDER}/{filename}", encoding="utf-8", mode="r") as file: 
+    with open(f"./data/{filename}", encoding="utf-8", mode="r") as file:
         reader = csv.reader(file)
         for row in reader:
             if not row:
@@ -59,14 +59,14 @@ def secondary_processing(amount: int) -> None:
     files_medians: dict[Category, list[float]] = defaultdict(list)
     
     for i in range(amount):
-        with open(f"./{RESULTS_FOLDER}/result_{i + 1}.csv", encoding="utf-8", mode="r") as result_file:
+        with open(f"./results/result_{i + 1}.csv", encoding="utf-8", mode="r") as result_file:
             reader = csv.reader(result_file)
             for row in reader:
                 category: Category = row[0]
                 median = float(row[1])
                 files_medians[category].append(median)
                 
-    with open(f"{RESULTS_FOLDER}/RESULT.csv", mode="x+", newline="") as result:
+    with open(f"results/RESULT.csv", mode="x+", newline="") as result:
         writer = csv.writer(result)
         for category, values in files_medians.items():
             median = stats.median(values)

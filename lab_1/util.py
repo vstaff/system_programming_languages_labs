@@ -20,8 +20,6 @@ CATEGORIES = [*Category]
 FLOAT_MIN = 1.0
 FLOAT_MAX = 100.0
 ROWS_AMOUNT = 30
-DATA_FOLDER = "data" # убедитесь что папка существует
-RESULTS_FOLDER = "results" # то же самое
 
 
 def get_random_float() -> float:

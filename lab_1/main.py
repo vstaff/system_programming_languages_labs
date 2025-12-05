@@ -1,13 +1,14 @@
 import csv
-from concurrent.futures import ProcessPoolExecutor
-from util import DATA_FOLDER, RESULTS_FOLDER, delete_files_in_folder
+from concurrent.futures import ProcessPoolExecutor as Pool
+from util import delete_files_in_folder
 from processing import generate_csv_files, process_file, secondary_processing
 
 
 def main() -> None:
     # предварительно очищаем папки с данными
-    delete_files_in_folder(DATA_FOLDER)
-    delete_files_in_folder(RESULTS_FOLDER)
+    # предварительно создаем эти папки
+    delete_files_in_folder("data")
+    delete_files_in_folder("results")
     
     # генерируем файлы 
     files_name = input("Type name for your files without extension (all your files will have that name, plus its index and .csv extension): ")
@@ -16,7 +17,7 @@ def main() -> None:
     files = [f"{files_name}_{i + 1}.csv" for i in range(files_amount)]
     
     # параллельная обработка файлов 
-    with ProcessPoolExecutor() as executor:
+    with Pool() as executor:
         data_from_files = list(executor.map(process_file, files))
     
     # сохраняем данные в файлы
